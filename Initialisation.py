@@ -2,11 +2,11 @@ import sys
 import ExcelSaveLoad
 
 
-def createMatrix(a, b):
+def createMatrix(a, b): #Создание массива а - строки, б- столбцы
     MatrixToCreate = [[0] * b for i in range(a)]
     return (MatrixToCreate)
 
-def defineArrays(XLS_FILE_PATH):
+def defineArrays(XLS_FILE_PATH): #Инициализация всех массивов
     TM_A = createMatrix(4,1)
     TM_1 = createMatrix(32, 1)
     TM_2 = createMatrix(30, 15)
