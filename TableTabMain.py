@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QTabWidget, QApplication, QMainWindow, QGridLayout, 
     QLayout
 from PyQt5.QtCore import QSize, Qt, QRect
 import json
-import Initialisation
+import Initialisation, ChoosePic
 
 
 
@@ -74,7 +74,7 @@ class Tab_Widget(QMainWindow):
                 Tab_Widget.XLS_FILE_PATH = fname[0]
                 Array = Initialisation.ExcelSaveLoad.read_xls_from_file(fname[0])
                 Tm1 = Array['TM1']
-                #TabUI.updateTM1(Tm1)
+
 
                 for i in range(len(Tm1)):
                     TabUI.table.setItem(i, 1, QTableWidgetItem(str(round(int(Tm1[i][0]), 0))))
@@ -82,6 +82,16 @@ class Tab_Widget(QMainWindow):
             else:
                 pass
 
+    def closeEvent(self, event):
+
+        reply = QMessageBox.question(self, 'Message',
+                                     "Are you sure to quit?", QMessageBox.Yes |
+                                     QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
 
 
@@ -90,6 +100,8 @@ class Tab_Widget(QMainWindow):
 
 class TabUI(QTabWidget):
 
+    image = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
     def __init__(self, parent):
         # Обязательно нужно вызвать метод супер класса
         super(TabUI,self).__init__(parent)
@@ -97,8 +109,6 @@ class TabUI(QTabWidget):
         self.initUI()
 
     def initUI(self):
-
-
 
         self.tab = QTabWidget()
         self.tab1 = QWidget()
@@ -113,15 +123,9 @@ class TabUI(QTabWidget):
         self.tab2f()
         self.tab3f()
 
-    def updateTM1(Tm1):
-        for i in range(len(Tm1)):
-            TabUI.table.setItem(i, 1, QTableWidgetItem(int(Tm1[i][0])))
-        print ('upd')
 
     def tab1f(self):
-        # arrr = Initialisation.ExcelSaveLoad.read_xls_from_file('KUKISH.xls')
-        # print
-        TabUI.aba= 154
+
         grid_layout = QGridLayout()  # Создаём QGridLayout
         # central_widget.setLayout(grid_layout)  # Устанавливаем данное размещение в центральный виджет
 
@@ -155,7 +159,7 @@ class TabUI(QTabWidget):
         grid_layout.addWidget(self.table, 0, 0)  # Добавляем таблицу в сетку
 
 
-        self.saveb = QPushButton('Сохранить', self)
+        self.saveb = QPushButton('Далее', self)
         self.proba = QPushButton('Проба', self)
         self.proba.setCheckable(False)
         self.saveb.setCheckable(False)
@@ -174,66 +178,65 @@ class TabUI(QTabWidget):
 
     def tab2f(self):
 
-        # tabTM2 = QTabWidget()
-        # tabTM21 = QWidget()
-        # tabTM22 = QWidget()
-        #
-        # tabTM2.addTab(tabTM21, "1")
-        # tabTM2.addTab(tabTM22, "2")
-        # tablayout = QVBoxLayout()
-        # tabTM2.setLayout(tablayout)
-        # tabTM2.setLayout(tablayout)
 
-        # TabUI.tabTM21f()
-        # TabUI.tabTM22f()
-
-    # def tabTM21f():
-
-        r = QRect(0, 0,130,130)
-
-        layout = QGridLayout()
+        layout = QHBoxLayout()
         Vlayout = QVBoxLayout()
-        Hlay = QHBoxLayout()
-        Hlay2 = QHBoxLayout()
 
-        D = QLabel('Диаметр')
-        P = QLabel('Посадка')
-        HTO = QLabel('Химико-термическая обработка')
-        # for i in range(9):
-        #     layout.setColumnStretcn(0,i)
-        layout.setGeometry(r)
-        layout.addWidget(D, 0, 29, Qt.AlignRight|Qt.AlignTop)
-        layout.addWidget(QLineEdit(), 0, 30, Qt.AlignRight|Qt.AlignTop)
-        layout.addWidget(P, 1,29, Qt.AlignRight|Qt.AlignTop)
-        layout.addWidget(QLineEdit(),1,30, Qt.AlignRight|Qt.AlignTop)
-        layout.addWidget(HTO, 2, 29, Qt.AlignRight|Qt.AlignTop)
-        layout.addWidget(QLineEdit(),2, 30, Qt.AlignRight|Qt.AlignTop)
-        layout.setSpacing(0)
-        # layout.addWidget(Hlay)
+        a = 'Работает'
+        l = QLabel()
+        l.setText(a)
+        layout.addWidget(l)
+
+        self.B1 = QPushButton('1 слой')
+        # self.B1.clicked.connect(self.Pic('1'))
+
+        self.B2 = QPushButton('2 слой')
+        # self.B2.clicked.connect(self.Pic(2))
+
+        self.B3 = QPushButton('3 слой')
+        # self.B3.clicked.connect(self.Pic(3))
+
+        self.B4 = QPushButton('4 слой')
+        self.B5 = QPushButton('5 слой')
+        self.B6 = QPushButton('6 слой')
+        self.B7 = QPushButton('7 слой')
+        self.B8 = QPushButton('8 слой')
+        self.B9 = QPushButton('9 слой')
+        self.B10 = QPushButton('10 слой')
+        self.B11 = QPushButton('11 слой')
+        self.B12 = QPushButton('12 слой')
+        self.B13 = QPushButton('13 слой')
+        self.B14 = QPushButton('14 слой')
+        self.B15 = QPushButton('15 слой')
+
+        Vlayout.addWidget(self.B1)
+        Vlayout.addWidget(self.B2)
+        Vlayout.addWidget(self.B3)
+        Vlayout.addWidget(self.B4)
+        Vlayout.addWidget(self.B5)
+        Vlayout.addWidget(self.B6)
+        Vlayout.addWidget(self.B7)
+        Vlayout.addWidget(self.B8)
+        Vlayout.addWidget(self.B9)
+        Vlayout.addWidget(self.B10)
+        Vlayout.addWidget(self.B11)
+        Vlayout.addWidget(self.B12)
+        Vlayout.addWidget(self.B13)
+        Vlayout.addWidget(self.B14)
+        Vlayout.addWidget(self.B15)
 
 
-        # layout.addWidget(QLabel("Name"))
-        # layout.addWidget(QLineEdit())
-        # layout.addWidget(QLabel("Address"))
-        # layout.addWidget(QLineEdit())
-        # Hlay.addWidget(QLineEdit())
-        # Hlay.addLayout(Vlayout)
-        # Hlay2.addLayout(Vlayout)
-        # Vlayout.addLayout(layout)
-        # Vlayout.addLayout(layout)
-        # Hlay.addLayout(layout)
-        # Hlay2.addLayout(layout)
 
-        # tabTM21.setLayout(layout)
+        Vlayout.addStretch(1)
+        layout.addStretch(1)
+        layout.addLayout(Vlayout)
+
+
+
+        self.setTabText(1,"TM2")
         self.tab2.setLayout(layout)
 
-    # def tabTM22f():
-    #     layout = QFormLayout()
-    #     layout.addRow("Пиши тут", QLineEdit())
-    #     layout.addRow("и тут", QLineEdit())
-    #     # TabUI.setTabText(2, "TM3")
-    #     TabUI.tabTM22.setLayout(layout)
-    #
+
     def tab3f(self):
 
         layout = QFormLayout()
@@ -242,9 +245,22 @@ class TabUI(QTabWidget):
         self.setTabText(2, "TM3")
         self.tab3.setLayout(layout)
 
-#выводим данные из таблицы
+    #выводим данные из таблицы
+    def Message(self):
+        buttonReply = QMessageBox.warning(self, 'Failed', "You must enter data in the table",
+                                          QMessageBox.Close, QMessageBox.Close)
 
     def getData(self):
+        if Tab_Widget.XLS_FILE_PATH == 'default.xls':
+            text, ok = QInputDialog.getText(self, 'Save file',
+                                            'Enter file name:')
+            Tab_Widget.XLS_FILE_PATH = text + '.xls'
+            Initialisation.defineArrays(Tab_Widget.XLS_FILE_PATH)
+            if not ok:
+                Tab_Widget.XLS_FILE_PATH = 'default.xls'
+
+
+
         rows = self.table.rowCount()
         cols = self.table.columnCount()
         data = []
@@ -254,12 +270,56 @@ class TabUI(QTabWidget):
                 try:
                     tmp.append(self.table.item(row, col).text())
                 except:
-                    tmp.append(0)
+                    tmp.append('0')
             data.append(tmp)
-        # for i in data: data[i] = int(data[i])
-        print(Tab_Widget.XLS_FILE_PATH)
         Initialisation.ExcelSaveLoad.my_func('TM1', data, Tab_Widget.XLS_FILE_PATH)
-        print(data)
+        try:
+            sum = int(self.table.item(12, 1).text())+int(self.table.item(13, 1).text())+int(self.table.item(14, 1).text())+int(self.table.item(15, 1).text())+2
+            if self.table.item(18, 1).text() == '1':
+                sum += 1
+            print(sum)
+
+            for i in range(1, sum):
+                print(ChoosePic.ChoosePic(data, i))
+                TabUI.image[i-1] = ChoosePic.ChoosePic(data, i)
+            print(data)
+            print(TabUI.image)
+
+        except:
+            self.Message()
+
+    def Pic(self, t):
+        if t == '1':
+            return TabUI.image[0]
+        elif t == '2':
+            return TabUI.image[1]
+        elif t == '3':
+            return TabUI.image[2]
+        elif t == 4:
+            return TabUI.image[3]
+        elif t == 5:
+            return TabUI.image[4]
+        elif t == 6:
+            return TabUI.image[5]
+        elif t == 7:
+            return TabUI.image[6]
+        elif t == 8:
+            return TabUI.image[7]
+        elif t == 9:
+            return TabUI.image[8]
+        elif t == 10:
+            return TabUI.image[9]
+        elif t == 11:
+            return TabUI.image[10]
+        elif t == 12:
+            return TabUI.image[11]
+        elif t == 13:
+            return TabUI.image[12]
+        elif t == 14:
+            return TabUI.image[13]
+        elif t == 15:
+            return TabUI.image[14]
+
 if __name__ == "__main__":
     import sys
 
