@@ -31,7 +31,6 @@ def defineArrays(XLS_FILE_PATH):
     ExcelSaveLoad.my_func('TMD', TMD, XLS_FILE_PATH)
     ExcelSaveLoad.my_func('TMI', TMI, XLS_FILE_PATH)
 
-    # ExcelSaveLoad.my_func('TM1', TM_3)
 
 
 if __name__ == '__main__':
