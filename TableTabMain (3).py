@@ -188,10 +188,8 @@ class TabUI(QTabWidget):
 
 
     def tab2f(self):
-        # sobaka = QGridLayout()
         shapka = QLabel('ПОВЕРХНОСТИ')
 
-        # shapka.labelAlignment = 0x0020
         scroll_area_array = QScrollArea()
         scroll_area_tab_improvisation = QScrollArea()
 
@@ -319,6 +317,7 @@ class TabUI(QTabWidget):
 
         self.B1 = QPushButton('1 поверхность', self)
         self.B1.clicked.connect(self.Pic)
+        # self.B1.clicked.connect(self.dataTm2)
 
         self.B2 = QPushButton('2 поверхность')
         self.B2.clicked.connect(self.Pic)
@@ -385,20 +384,8 @@ class TabUI(QTabWidget):
 
         V2layout.addLayout(H_layout)
 
-        # layout.addWidget(self.l)
-
-
-
-        #
-        # Vlayout.addStretch(1)
-        # layout.addStretch(1)
-        # layout.addLayout(Vlayout)
-
-        # sobaka.addLayout(window_tab2)
-
         self.setTabText(1,"TM2")
         self.tab2.setLayout(layout)
-        # self.tab2.setLayout(sobaka)
 
 
     def tab3f(self):
@@ -424,13 +411,7 @@ class TabUI(QTabWidget):
         self.B5.setEnabled(True)
         self.B4.setEnabled(True)
 
-        hmp = 3
-        for t in range(3,len(TabUI.image)):
-            if TabUI.image[t] == 0:
-                break
-            else:
-                hmp+=1
-        print(hmp)
+        hmp = 15-TabUI.image.count(0)
         if hmp < 15:
             self.B15.setEnabled(False)
             if hmp < 14:
@@ -485,9 +466,7 @@ class TabUI(QTabWidget):
             data.append(tmp)
         Initialisation.ExcelSaveLoad.my_func('TM1', data, Tab_Widget.XLS_FILE_PATH)
         try:
-            sum = int(self.table.item(12, 1).text())+int(self.table.item(13, 1).text())+int(self.table.item(14, 1).text())+int(self.table.item(15, 1).text())+2
-            if self.table.item(18, 1).text() == '1':
-                sum += 1
+            sum = int(self.table.item(12, 1).text())+int(self.table.item(13, 1).text())+int(self.table.item(14, 1).text())+int(self.table.item(15, 1).text())+3
             print(sum)
             TabUI.image = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
             for i in range(1, sum):
@@ -499,6 +478,11 @@ class TabUI(QTabWidget):
 
         except:
             self.Message()
+
+    def dataTm2(self):
+        sender = self.sender()
+
+
 
     def Pic(self):
 
