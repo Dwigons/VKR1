@@ -190,6 +190,7 @@ class TabUI(QTabWidget):
         shapka = QLabel('ПОВЕРХНОСТИ')
 
         scroll_area_array = QScrollArea()
+        scroll_area_array.setMaximumWidth(800)
         scroll_area_tab_improvisation = QScrollArea()
         scroll_area_tab_improvisation.setMaximumHeight(62)
 
@@ -198,6 +199,7 @@ class TabUI(QTabWidget):
         set_widget2 = QWidget()
         scroll_layout1 = QGridLayout(set_widget1)
         H_layout = QHBoxLayout(set_widget1)
+
         # scroll_layout1 = QFormLayout(set_widget1)
         # scroll_layout1.labelAlignment = 0x0040
         scroll_layout2 = QFormLayout(set_widget2)
@@ -213,97 +215,6 @@ class TabUI(QTabWidget):
 
         V2layout.addWidget(shapka)
 
-        # self.l = QLabel()
-        #
-        # self.e1 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Номинальный диаметр: '), self.e1)
-        #
-        # self.e2 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Посадка: '), self.e2)
-        #
-        # self.e3 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Номер квалитета: '), self.e3)
-        #
-        # self.e4 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Верхнее отклонение: '), self.e4)
-        #
-        # self.e5 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Нижнее отклонение: '), self.e5)
-        #
-        # self.e6 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Величина параметра шероховатость: '), self.e6)
-        #
-        # self.e7 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Особые требования: '), self.e7)
-        #
-        # self.e8 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Химико-термическая обработка: '), self.e8)
-        #
-        # self.e9 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Покрытие: '), self.e9)
-        #
-        # self.e10 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Требование на взаимное положение: '), self.e10)
-        #
-        # self.e11 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Вид и величина требований взаимного положения: '), self.e11)
-        #
-        # self.e12 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Радиус при переходе от элемента вращения\n к ограничивающей его плоскости: '), self.e12)
-        #
-        # self.e13 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Шероховатость плоскости,\nограничивающий элемент вращения: '), self.e13)
-        #
-        # self.e14 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Требование на взаимное расположение плоскости, ограничивающей элемент первого уровня: '), self.e14)
-        #
-        # self.e15 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Вид и величина этих требований: '), self.e15)
-        #
-        # self.e16 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Количество элементов 2-ого уровня на элементе: '), self.e16)
-        #
-        # self.e17 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Сумма элементов 2-ого уровня на детали в нарастающем порядке: '), self.e17)
-        #
-        # self.e18 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Диаметр элемента в заготовке: '), self.e18)
-        #
-        # self.e19 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Верхнее отклонение в заготовке: '), self.e19)
-        #
-        # self.e20 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Нижнее отклонение в заготовке: '), self.e20)
-        #
-        # self.e21 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Окончательная обработка: '), self.e21)
-        #
-        # self.e22 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Резерв: '), self.e22)
-        #
-        # self.e23 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Маршрут обработки плоскостей: '), self.e23)
-        #
-        # self.e24 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Наличие канавки у буртика: '), self.e24)
-        #
-        # self.e25 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Маршрут элементов вращение: '), self.e25)
-        #
-        # self.e26 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Суммарное количество элементов 3-его уровня на элементе: '), self.e26)
-        #
-        # self.e27 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Номер плоскостного элемента, ограничивающего\nрассматриваемый элемент 1-ого уровня слева: '), self.e27)
-        #
-        # self.e28 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Номер плоскостного элемента, ограничивающего\nрассматриваемый элемент 1-ого уровня справа: '), self.e28)
-        #
-        # self.e29 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Признак обработки элементов вращения: '), self.e29)
-        #
-        # self.e30 = QLineEdit()
-        # scroll_layout1.addRow(QLabel('Тип станка для окончательной обработки элемента 1-ого уровня и указание о необходимости проведения этой обработки до и после термообработки: '), self.e30)
 
         self.l = QLabel()
 

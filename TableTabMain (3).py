@@ -140,6 +140,7 @@ class TabUI(QTabWidget):
         # central_widget.setLayout(grid_layout)  # Устанавливаем данное размещение в центральный виджет
 
         TabUI.table = QTableWidget(self)  # Создаём таблицу
+        self.table.setMaximumWidth(800)
         # self.table.setGeometry(0,0,960,1000)
         self.table.setColumnCount(3)  # Устанавливаем три колонки
         self.table.setRowCount(32)  # и одну строку в таблице
@@ -166,7 +167,7 @@ class TabUI(QTabWidget):
         # делаем ресайз колонок по содержимому
         self.table.resizeColumnsToContents()
 
-        grid_layout.addWidget(self.table, 0, 0)  # Добавляем таблицу в сетку
+        grid_layout.addWidget(self.table, 0, 0,3,1)  # Добавляем таблицу в сетку
 
 
         self.saveb = QPushButton('Далее', self)
@@ -177,8 +178,8 @@ class TabUI(QTabWidget):
         self.proba.move(980, 900)
 
         # self.saveb.setGeometry(1000, 1000, 20, 25)
-        grid_layout.addWidget(self.saveb,80, 60)
-        grid_layout.addWidget(self.proba, 100, 60)
+        grid_layout.addWidget(self.saveb,1,1)
+        grid_layout.addWidget(self.proba,2,1)
 
         self.saveb.clicked.connect(self.getData)
 
@@ -198,8 +199,10 @@ class TabUI(QTabWidget):
         set_widget2 = QWidget()
 
         scroll_area_tab_improvisation.setMaximumHeight(63)
+        scroll_area_array.setMaximumWidth(660)
         # scroll_layout1 = QGridLayout(set_widget1)
         scroll_layout1 = QFormLayout(set_widget1)
+        H_layout = QHBoxLayout(set_widget1)
         # scroll_layout1.labelAlignment = 0x0040
         scroll_layout2 = QFormLayout(set_widget2)
 
@@ -306,165 +309,13 @@ class TabUI(QTabWidget):
         self.e30 = QLineEdit()
         scroll_layout1.addRow(QLabel('30 Тип станка для окончательной обработки элемента 1-ого уровня\n и указание о необходимости проведения этой обработки до и после термообработки: '), self.e30)
 
-        # self.l = QLabel()
-        #
-        # self.e1 = QLineEdit()
-        # self.le1 = QLabel('Номинальный диаметр: ')
-        #
-        # self.e2 = QLineEdit()
-        # self.le2 = QLabel('Посадка: ')
-        #
-        # self.e3 = QLineEdit()
-        # self.le3 = QLabel('Номер квалитета: ')
-        #
-        # self.e4 = QLineEdit()
-        # self.le4 = QLabel('Верхнее отклонение: ')
-        #
-        # self.e5 = QLineEdit()
-        # self.le5 = QLabel('Нижнее отклонение: ')
-        #
-        # self.e6 = QLineEdit()
-        # self.le6 = QLabel('Величина параметра шероховатость: ')
-        #
-        # self.e7 = QLineEdit()
-        # self.le7 = QLabel('Особые требования: ')
-        #
-        # self.e8 = QLineEdit()
-        # self.le8 = QLabel('Химико-термическая обработка: ')
-        #
-        # self.e9 = QLineEdit()
-        # self.le9 = QLabel('Покрытие: ')
-        #
-        # self.e10 = QLineEdit()
-        # self.le10 = QLabel('Требование на взаимное положение: ')
-        #
-        # self.e11 = QLineEdit()
-        # self.le11 = QLabel('Вид и величина требований взаимного положения: ')
-        #
-        # self.e12 = QLineEdit()
-        # self.le12 = QLabel('Радиус при переходе от элемента вращения\n к ограничивающей его плоскости: ')
-        #
-        # self.e13 = QLineEdit()
-        # self.le13 = QLabel('Шероховатость плоскости,\nограничивающий элемент вращения: ')
-        #
-        # self.e14 = QLineEdit()
-        # self.le14 = QLabel('Требование на взаимное расположение плоскости,\nограничивающей элемент первого уровня: ')
-        #
-        # self.e15 = QLineEdit()
-        # self.le15 = QLabel('Вид и величина этих требований: ')
-        #
-        # self.e16 = QLineEdit()
-        # self.le16 = QLabel('Количество элементов 2-ого уровня на элементе: ')
-        #
-        # self.e17 = QLineEdit()
-        # self.le17 = QLabel('Сумма элементов 2-ого уровня на детали в нарастающем порядке: ')
-        #
-        # self.e18 = QLineEdit()
-        # self.le18 = QLabel('Диаметр элемента в заготовке: ')
-        #
-        # self.e19 = QLineEdit()
-        # self.le19 = QLabel('Верхнее отклонение в заготовке: ')
-        #
-        # self.e20 = QLineEdit()
-        # self.le20 = QLabel('Нижнее отклонение в заготовке: ')
-        #
-        # self.e21 = QLineEdit()
-        # self.le21 = QLabel('Окончательная обработка: ')
-        #
-        # self.e22 = QLineEdit()
-        # self.le22 = QLabel('Резерв: ')
-        #
-        # self.e23 = QLineEdit()
-        # self.le23 = QLabel('Маршрут обработки плоскостей: ')
-        #
-        # self.e24 = QLineEdit()
-        # self.le24 = QLabel('Наличие канавки у буртика: ')
-        #
-        # self.e25 = QLineEdit()
-        # self.le25 = QLabel('Маршрут элементов вращение: ')
-        #
-        # self.e26 = QLineEdit()
-        # self.le26 = QLabel('Суммарное количество элементов 3-его уровня на элементе: ')
-        #
-        # self.e27 = QLineEdit()
-        # self.le27 = QLabel('Номер плоскостного элемента, ограничивающего\nрассматриваемый элемент 1-ого уровня слева: ')
-        #
-        # self.e28 = QLineEdit()
-        # self.le28 = QLabel('Номер плоскостного элемента, ограничивающего\nрассматриваемый элемент 1-ого уровня справа: ')
-        #
-        # self.e29 = QLineEdit()
-        # self.le29 = QLabel('Признак обработки элементов вращения: ')
-        #
-        # self.e30 = QLineEdit()
-        # self.le30 = QLabel('Тип станка для окончательной обработки элемента 1-ого уровня и\nуказание о необходимости проведения этой обработки до и после термообработки: ')
-        #
-        #
-        # scroll_layout1.addWidget(self.le1, 0, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le2, 1, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le3, 2, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le4, 3, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le5, 4, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le6, 5, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le7, 6, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le8, 7, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le9, 8, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le10, 9, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le11, 10, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le12, 11, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le13, 12, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le14, 13, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le15, 14, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le16, 15, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le17, 16, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le18, 17, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le19, 18, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le20, 19, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le21, 20, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le22, 21, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le23, 22, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le24, 23, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le25, 24, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le26, 25, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le27, 26, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le28, 27, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le29, 28, 0, Qt.AlignRight)
-        # scroll_layout1.addWidget(self.le30, 29, 0, Qt.AlignRight)
-        #
-        # scroll_layout1.addWidget(self.e1, 0, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e2, 1, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e3, 2, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e4, 3, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e5, 4, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e6, 5, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e7, 6, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e8, 7, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e9, 8, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e10, 9, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e11, 10, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e12, 11, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e13, 12, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e14, 13, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e15, 14, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e16, 15, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e17, 16, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e18, 17, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e19, 18, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e20, 19, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e21, 20, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e22, 21, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e23, 22, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e24, 23, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e25, 24, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e26, 25, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e27, 26, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e28, 27, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e29, 28, 1, Qt.AlignCenter)
-        # scroll_layout1.addWidget(self.e30, 29, 1, Qt.AlignCenter)
 
         layout.addLayout(V2layout)
         # layout.addLayout(layout2)
         #Добавляю скрол эреа на слой
         scroll_area_array.setWidget(set_widget1)
+        H_layout.addWidget(scroll_area_array)
+        H_layout.addWidget(self.l)
 
         self.B1 = QPushButton('1 поверхность', self)
         self.B1.clicked.connect(self.Pic)
@@ -532,9 +383,9 @@ class TabUI(QTabWidget):
         scroll_area_tab_improvisation.setWidget(set_widget2)
         V2layout.addWidget(scroll_area_tab_improvisation)
 
-        V2layout.addWidget(scroll_area_array)
+        V2layout.addLayout(H_layout)
 
-        layout.addWidget(self.l)
+        # layout.addWidget(self.l)
 
 
 
