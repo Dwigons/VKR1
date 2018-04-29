@@ -402,12 +402,221 @@ class TabUI(QTabWidget):
 
 
     def tab3f(self):
+        # sobaka = QGridLayout()
+        shapka = QLabel('ПОВЕРХНОСТИ')
 
-        layout = QFormLayout()
-        layout.addRow("Пиши тут", QLineEdit())
-        layout.addRow("и тут", QLineEdit())
-        self.setTabText(2, "TM3")
-        self.tab3.setLayout(layout)
+        # shapka.labelAlignment = 0x0020
+        scroll_area_array = QScrollArea()
+        scroll_area_tab_improvisation = QScrollArea()
+
+        set_widget1 = QWidget()
+        set_widget2 = QWidget()
+
+        scroll_area_tab_improvisation.setMaximumHeight(63)
+        scroll_area_array.setMaximumWidth(660)
+        # scroll_layout1 = QGridLayout(set_widget1)
+        scroll_layout1 = QFormLayout(set_widget1)
+        H_layout = QHBoxLayout(set_widget1)
+        # scroll_layout1.labelAlignment = 0x0040
+        scroll_layout2 = QFormLayout(set_widget2)
+
+        window_tab2 = QWidget()
+        window_tab22 = QWidget()
+        ALlInV = QVBoxLayout(window_tab2)
+        layout = QHBoxLayout(window_tab2)
+        layout2 = QHBoxLayout(set_widget2)
+        layout3 = QHBoxLayout()
+        Vlayout = QVBoxLayout(window_tab2)
+        V2layout = QVBoxLayout(window_tab2)
+
+        V2layout.addWidget(shapka)
+
+        self.l = QLabel()
+
+        self.e1 = QLineEdit()
+        scroll_layout1.addRow(QLabel('1 Номинальный диаметр: '), self.e1)
+
+        self.e2 = QLineEdit()
+        scroll_layout1.addRow(QLabel('2 Посадка: '), self.e2)
+
+        self.e3 = QLineEdit()
+        scroll_layout1.addRow(QLabel('3 Номер квалитета: '), self.e3)
+
+        self.e4 = QLineEdit()
+        scroll_layout1.addRow(QLabel('4 Верхнее отклонение: '), self.e4)
+
+        self.e5 = QLineEdit()
+        scroll_layout1.addRow(QLabel('5 Нижнее отклонение: '), self.e5)
+
+        self.e6 = QLineEdit()
+        scroll_layout1.addRow(QLabel('6 Величина параметра шероховатость: '), self.e6)
+
+        self.e7 = QLineEdit()
+        scroll_layout1.addRow(QLabel('7 Особые требования: '), self.e7)
+
+        self.e8 = QLineEdit()
+        scroll_layout1.addRow(QLabel('8 Химико-термическая обработка: '), self.e8)
+
+        self.e9 = QLineEdit()
+        scroll_layout1.addRow(QLabel('9 Покрытие: '), self.e9)
+
+        self.e10 = QLineEdit()
+        scroll_layout1.addRow(QLabel('10 Требование на взаимное положение: '), self.e10)
+
+        self.e11 = QLineEdit()
+        scroll_layout1.addRow(QLabel('11 Вид и величина требований взаимного положения: '), self.e11)
+
+        self.e12 = QLineEdit()
+        scroll_layout1.addRow(QLabel('12 Радиус при переходе от элемента вращения\n к ограничивающей его плоскости: '),
+                              self.e12)
+
+        self.e13 = QLineEdit()
+        scroll_layout1.addRow(QLabel('13 Шероховатость плоскости,\nограничивающий элемент вращения: '), self.e13)
+
+        self.e14 = QLineEdit()
+        scroll_layout1.addRow(
+            QLabel('14 Требование на взаимное расположение плоскости, ограничивающей элемент первого уровня: '),
+            self.e14)
+
+        self.e15 = QLineEdit()
+        scroll_layout1.addRow(QLabel('15 Вид и величина этих требований: '), self.e15)
+
+        self.e16 = QLineEdit()
+        scroll_layout1.addRow(QLabel('16 Количество элементов 2-ого уровня на элементе: '), self.e16)
+
+        self.e17 = QLineEdit()
+        scroll_layout1.addRow(QLabel('17 Сумма элементов 2-ого уровня на детали в нарастающем порядке: '), self.e17)
+
+        self.e18 = QLineEdit()
+        scroll_layout1.addRow(QLabel('18 Диаметр элемента в заготовке: '), self.e18)
+
+        self.e19 = QLineEdit()
+        scroll_layout1.addRow(QLabel('19 Верхнее отклонение в заготовке: '), self.e19)
+
+        self.e20 = QLineEdit()
+        scroll_layout1.addRow(QLabel('20 Нижнее отклонение в заготовке: '), self.e20)
+
+        self.e21 = QLineEdit()
+        scroll_layout1.addRow(QLabel('21 Окончательная обработка: '), self.e21)
+
+        self.e22 = QLineEdit()
+        scroll_layout1.addRow(QLabel('22 Резерв: '), self.e22)
+
+        self.e23 = QLineEdit()
+        scroll_layout1.addRow(QLabel('23 Маршрут обработки плоскостей: '), self.e23)
+
+        self.e24 = QLineEdit()
+        scroll_layout1.addRow(QLabel('24 Наличие канавки у буртика: '), self.e24)
+
+        self.e25 = QLineEdit()
+        scroll_layout1.addRow(QLabel('25 Маршрут элементов вращение: '), self.e25)
+
+        self.e26 = QLineEdit()
+        scroll_layout1.addRow(QLabel('26 Суммарное количество элементов 3-его уровня на элементе: '), self.e26)
+
+        self.e27 = QLineEdit()
+        scroll_layout1.addRow(
+            QLabel('27 Номер плоскостного элемента, ограничивающего\nрассматриваемый элемент 1-ого уровня слева: '),
+            self.e27)
+
+        self.e28 = QLineEdit()
+        scroll_layout1.addRow(
+            QLabel('28 Номер плоскостного элемента, ограничивающего\nрассматриваемый элемент 1-ого уровня справа: '),
+            self.e28)
+
+        self.e29 = QLineEdit()
+        scroll_layout1.addRow(QLabel('29 Признак обработки элементов вращения: '), self.e29)
+
+        self.e30 = QLineEdit()
+        scroll_layout1.addRow(QLabel(
+            '30 Тип станка для окончательной обработки элемента 1-ого уровня\n и указание о необходимости проведения этой обработки до и после термообработки: '),
+                              self.e30)
+
+        layout.addLayout(V2layout)
+        # layout.addLayout(layout2)
+        # Добавляю скрол эреа на слой
+        scroll_area_array.setWidget(set_widget1)
+        H_layout.addWidget(scroll_area_array)
+        H_layout.addWidget(self.l)
+
+        self.B1 = QPushButton('1 поверхность', self)
+        self.B1.clicked.connect(self.Pic)
+
+        self.B2 = QPushButton('2 поверхность')
+        self.B2.clicked.connect(self.Pic)
+
+        self.B3 = QPushButton('3 поверхность')
+        self.B3.clicked.connect(self.Pic)
+
+        self.B4 = QPushButton('4 поверхность')
+        self.B4.clicked.connect(self.Pic)
+
+        self.B5 = QPushButton('5 поверхность')
+        self.B5.clicked.connect(self.Pic)
+
+        self.B6 = QPushButton('6 поверхность')
+        self.B6.clicked.connect(self.Pic)
+
+        self.B7 = QPushButton('7 поверхность')
+        self.B7.clicked.connect(self.Pic)
+
+        self.B8 = QPushButton('8 поверхность')
+        self.B8.clicked.connect(self.Pic)
+
+        self.B9 = QPushButton('9 поверхность')
+        self.B9.clicked.connect(self.Pic)
+
+        self.B10 = QPushButton('10 поверхность')
+        self.B10.clicked.connect(self.Pic)
+
+        self.B11 = QPushButton('11 поверхность')
+        self.B11.clicked.connect(self.Pic)
+
+        self.B12 = QPushButton('12 поверхность')
+        self.B12.clicked.connect(self.Pic)
+
+        self.B13 = QPushButton('13 поверхность')
+        self.B13.clicked.connect(self.Pic)
+
+        self.B14 = QPushButton('14 поверхность')
+        self.B14.clicked.connect(self.Pic)
+
+        self.B15 = QPushButton('15 поверхность')
+        self.B15.clicked.connect(self.Pic)
+
+        layout2.addWidget(self.B1)
+        layout2.addWidget(self.B2)
+        layout2.addWidget(self.B3)
+        layout2.addWidget(self.B4)
+        layout2.addWidget(self.B5)
+        layout2.addWidget(self.B6)
+        layout2.addWidget(self.B7)
+        layout2.addWidget(self.B8)
+        layout2.addWidget(self.B9)
+        layout2.addWidget(self.B10)
+        layout2.addWidget(self.B11)
+        layout2.addWidget(self.B12)
+        layout2.addWidget(self.B13)
+        layout2.addWidget(self.B14)
+        layout2.addWidget(self.B15)
+        scroll_layout2.insertRow(1, layout2)
+        scroll_area_tab_improvisation.setWidget(set_widget2)
+        V2layout.addWidget(scroll_area_tab_improvisation)
+
+        V2layout.addLayout(H_layout)
+
+        # layout.addWidget(self.l)
+
+        #
+        # Vlayout.addStretch(1)
+        # layout.addStretch(1)
+        # layout.addLayout(Vlayout)
+
+        # sobaka.addLayout(window_tab2)
+
+        self.setTabText(1, "TM2")
+        self.tab2.setLayout(layout)
+        # self.tab2.setLayout(sobaka)
 
     def enabl(self):
 
