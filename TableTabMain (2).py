@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QTabWidget, QApplication, QMainWindow, QGridLayout, 
     QTableWidget, QTableWidgetItem, QPushButton, QFormLayout, QLineEdit, QHBoxLayout, QAction, QFileDialog, \
     QLayout
 from PyQt5.QtCore import QSize, Qt, QRect
+from PyQt5.QtGui import QPixmap
 import json
 import Initialisation, ChoosePic
 
@@ -183,34 +184,57 @@ class TabUI(QTabWidget):
         Vlayout = QVBoxLayout()
 
         a = 'Работает'
-        l = QLabel()
-        l.setText(a)
-        layout.addWidget(l)
+        self.l = QLabel()
+        self.l.setText(a)
+        layout.addWidget(self.l)
 
-        self.B1 = QPushButton('1 слой', self)
+        self.B1 = QPushButton('1 поверхность', self)
         self.B1.clicked.connect(self.Pic)
-        print(a)
 
-        # l.setIcon()
+        self.B2 = QPushButton('2 поверхность')
+        self.B2.clicked.connect(self.Pic)
 
-        self.B2 = QPushButton('2 слой')
-        # self.B2.clicked.connect(self.Pic(2))
+        self.B3 = QPushButton('3 поверхность')
+        self.B3.clicked.connect(self.Pic)
 
-        self.B3 = QPushButton('3 слой')
-        # self.B3.clicked.connect(self.Pic(3))
+        self.B4 = QPushButton('4 поверхность')
+        self.B4.clicked.connect(self.Pic)
 
-        self.B4 = QPushButton('4 слой')
-        self.B5 = QPushButton('5 слой')
-        self.B6 = QPushButton('6 слой')
-        self.B7 = QPushButton('7 слой')
-        self.B8 = QPushButton('8 слой')
-        self.B9 = QPushButton('9 слой')
-        self.B10 = QPushButton('10 слой')
-        self.B11 = QPushButton('11 слой')
-        self.B12 = QPushButton('12 слой')
-        self.B13 = QPushButton('13 слой')
-        self.B14 = QPushButton('14 слой')
-        self.B15 = QPushButton('15 слой')
+        self.B5 = QPushButton('5 поверхность')
+        self.B5.clicked.connect(self.Pic)
+
+        self.B6 = QPushButton('6 поверхность')
+        self.B6.clicked.connect(self.Pic)
+
+        self.B7 = QPushButton('7 поверхность')
+        self.B7.clicked.connect(self.Pic)
+
+        self.B8 = QPushButton('8 поверхность')
+        self.B8.clicked.connect(self.Pic)
+
+        self.B9 = QPushButton('9 поверхность')
+        self.B9.clicked.connect(self.Pic)
+
+        self.B10 = QPushButton('10 поверхность')
+        self.B10.clicked.connect(self.Pic)
+
+        self.B11 = QPushButton('11 поверхность')
+        self.B11.clicked.connect(self.Pic)
+
+        self.B12 = QPushButton('12 поверхность')
+        self.B12.clicked.connect(self.Pic)
+
+        self.B13 = QPushButton('13 поверхность')
+        self.B13.clicked.connect(self.Pic)
+
+        self.B14 = QPushButton('14 поверхность')
+        self.B14.clicked.connect(self.Pic)
+
+        self.B15 = QPushButton('15 поверхность')
+        self.B15.clicked.connect(self.Pic)
+
+
+
 
         Vlayout.addWidget(self.B1)
         Vlayout.addWidget(self.B2)
@@ -248,11 +272,45 @@ class TabUI(QTabWidget):
         self.setTabText(2, "TM3")
         self.tab3.setLayout(layout)
 
-    #выводим данные из таблицы
+    def enabl(self):
+
+        hmp = 3
+        for t in range(3,len(TabUI.image)):
+            if TabUI.image[t] == 0:
+                break
+            else:
+                hmp+=1
+        print(hmp)
+        if hmp < 15:
+            self.B15.setEnabled(False)
+            if hmp < 14:
+                self.B14.setEnabled(False)
+                if hmp < 13:
+                    self.B13.setEnabled(False)
+                    if hmp < 12:
+                        self.B12.setEnabled(False)
+                        if hmp < 11:
+                            self.B11.setEnabled(False)
+                            if hmp < 10:
+                                self.B10.setEnabled(False)
+                                if hmp < 9:
+                                    self.B9.setEnabled(False)
+                                    if hmp < 8:
+                                        self.B8.setEnabled(False)
+                                        if hmp < 7:
+                                            self.B7.setEnabled(False)
+                                            if hmp < 6:
+                                                self.B6.setEnabled(False)
+                                                if hmp < 5:
+                                                    self.B5.setEnabled(False)
+                                                    if hmp < 4:
+                                                        self.B4.setEnabled(False)
+
     def Message(self):
         buttonReply = QMessageBox.warning(self, 'Failed', "You must enter data in the table",
                                           QMessageBox.Close, QMessageBox.Close)
 
+    # выводим данные из таблицы
     def getData(self):
         if Tab_Widget.XLS_FILE_PATH == 'default.xls':
             text, ok = QInputDialog.getText(self, 'Save file',
@@ -287,6 +345,7 @@ class TabUI(QTabWidget):
                 TabUI.image[i-1] = ChoosePic.ChoosePic(data, i)
             print(data)
             print(TabUI.image)
+            self.enabl()
 
         except:
             self.Message()
@@ -295,37 +354,36 @@ class TabUI(QTabWidget):
 
         sender = self.sender()
         t = sender.text()
-        if t == '1 слой':
-            print(TabUI.image[0])
-            return TabUI.image[0]
-        elif t == '2':
-            return TabUI.image[1]
-        elif t == '3':
-            return TabUI.image[2]
-        elif t == 4:
-            return TabUI.image[3]
-        elif t == 5:
-            return TabUI.image[4]
-        elif t == 6:
-            return TabUI.image[5]
-        elif t == 7:
-            return TabUI.image[6]
-        elif t == 8:
-            return TabUI.image[7]
-        elif t == 9:
-            return TabUI.image[8]
-        elif t == 10:
-            return TabUI.image[9]
-        elif t == 11:
-            return TabUI.image[10]
-        elif t == 12:
-            return TabUI.image[11]
-        elif t == 13:
-            return TabUI.image[12]
-        elif t == 14:
-            return TabUI.image[13]
-        elif t == 15:
-            return TabUI.image[14]
+        if t == '1 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[0])))
+        elif t == '2 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[1])))
+        elif t == '3 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[2])))
+        elif t == '4 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[3])))
+        elif t == '5 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[4])))
+        elif t == '6 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[5])))
+        elif t == '7 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[6])))
+        elif t == '8 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[7])))
+        elif t == '9 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[8])))
+        elif t == '10 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[9])))
+        elif t == '11 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[10])))
+        elif t == '12 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[11])))
+        elif t == '13 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[12])))
+        elif t == '14 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[13])))
+        elif t == '15 поверхность':
+            self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[14])))
 
 if __name__ == "__main__":
     import sys
