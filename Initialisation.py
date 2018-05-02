@@ -3,7 +3,7 @@ import ExcelSaveLoad
 
 
 def createMatrix(a, b): #Создание массива а - строки, б- столбцы
-    MatrixToCreate = [[0] * b for i in range(a)]
+    MatrixToCreate = [['0'] * b for i in range(a)]
     return (MatrixToCreate)
 
 def defineArrays(XLS_FILE_PATH): #Инициализация всех массивов
