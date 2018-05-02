@@ -318,6 +318,7 @@ class TabUI(QTabWidget):
         self.nextTm3 = QPushButton('Next',self)
         self.nextTm3.setMaximumWidth(100)
         self.nextTm3.move(980, 900)
+        self.nextTm3.clicked.connect(self.TM2_func)
 
         layout.addLayout(V2layout)
         # layout.addLayout(layout2)
@@ -423,8 +424,14 @@ class TabUI(QTabWidget):
         self.setTabText(1,"TM2")
         self.tab2.setLayout(layout)
 
+    def TM2_func(self):
+        self.setCurrentWidget(self.tab3)
+        Initialisation.ExcelSaveLoad.my_func('TM2', TabUI.Tm2, Tab_Widget.XLS_FILE_PATH)
+
+
 
     def tab3f(self):
+        layout = QFormLayout()
         # # sobaka = QGridLayout()
         # shapka = QLabel('ПОВЕРХНОСТИ')
         #
@@ -642,7 +649,7 @@ class TabUI(QTabWidget):
         # # sobaka.addLayout(window_tab2)
         #
         self.setTabText(2, "TM3")
-        # self.tab2.setLayout(layout)
+        self.tab2.setLayout(layout)
         # self.tab2.setLayout(sobaka)
 
     def enabl(self):
