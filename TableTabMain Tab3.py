@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QTabWidget, QApplication, QMainWindow, QGridLayout, QWidget, QVBoxLayout, QLabel, QInputDialog, QMessageBox,\
     QTableWidget, QTableWidgetItem, QPushButton, QFormLayout, QLineEdit, QHBoxLayout, QAction, QFileDialog, \
-    QLayout, QScroller, QScrollArea
-from PyQt5.QtCore import QSize, Qt, QRect
+    QLayout, QScroller, QScrollArea, QComboBox, QCheckBox
+from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
 from PyQt5.QtGui import QPixmap
 import json
 import Initialisation, ChoosePic
@@ -191,6 +191,12 @@ class TabUI(QTabWidget):
 
         grid_layout.addWidget(self.table, 0, 0,3,1,Qt.AlignLeft)  # Добавляем таблицу в сетку
 
+        code_material = QComboBox(self)
+        code_material.addItems(['Cталь СТ3', 'Сталь СТ4', 'Сталь А30','Сталь А20', 'Сталь А12', 'Сталь А40Г'])
+        self.table.setCellWidget(0, 1, code_material)
+
+        hole = QCheckBox()
+        self.table.setCellWidget(18, 1, hole)
 
         self.saveb = QPushButton('Next', self)
         self.saveb.setMaximumWidth(100)
@@ -248,7 +254,8 @@ class TabUI(QTabWidget):
         self.e2 = QLineEdit()
         scroll_layout1.addRow(QLabel('2 Посадка '), self.e2)
 
-        self.e3 = QLineEdit()
+        self.e3 = QComboBox(self)
+        self.e3.addItems(['01', '0', "1", "2", "3", "4", '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'])
         scroll_layout1.addRow(QLabel('3 Номер квалитета '), self.e3)
 
         self.e4 = QLineEdit()
@@ -1181,14 +1188,15 @@ class TabUI(QTabWidget):
 
         H_layout_TMA = QHBoxLayout(set_widget1_TMA)
         V_layout_TMA = QVBoxLayout(set_widget1_TMA)
+        # H2_layout_TMA = QHBoxLayout(set_widget1_TMA)
 
         # window_tab2_TMA = QWidget()
 
         layout_TMA = QHBoxLayout()
 
-        self.save_param_TMA = QPushButton('Сохранить\nпараметры')
+        self.save_param_TMA = QPushButton('Exit')
         self.save_param_TMA.setMaximumWidth(100)
-        self.save_param_TMA.clicked.connect(self.dataTm2)
+        self.save_param_TMA.clicked.connect(QCoreApplication.instance().quit)
 
         self.e1_TMA = QLineEdit()
         self.e2_TMA = QLineEdit()
@@ -1200,18 +1208,19 @@ class TabUI(QTabWidget):
         scroll_layout1_TMA.addRow(QLabel(self.file[2][0]), self.e3_TMA)
         scroll_layout1_TMA.addRow(QLabel(self.file[3][0]), self.e4_TMA)
 
-        H_layout_TMA.addWidget(set_widget1_TMA)
+        V_layout_TMA.addWidget(set_widget1_TMA)
 
-        self.nextTMA = QPushButton('Exit', self)
+        self.nextTMA = QPushButton('Next', self)
         self.nextTMA.setMaximumWidth(100)
         self.nextTMA.move(980, 900)
         self.nextTMA.clicked.connect(self.next_tab)
 
-        V_layout_TMA.addWidget(self.nextTMA, Qt.AlignTop | Qt.AlignRight)
-        V_layout_TMA.addWidget(self.save_param_TMA, Qt.AlignTop | Qt.AlignRight)
-        H_layout_TMA.addLayout(V_layout_TMA)
+        H_layout_TMA.addWidget(self.nextTMA, Qt.AlignTop | Qt.AlignRight)
+        H_layout_TMA.addWidget(self.save_param_TMA, Qt.AlignTop | Qt.AlignRight)
+        H_layout_TMA.addStretch(1)
+        V_layout_TMA.addLayout(H_layout_TMA)
 
-        layout_TMA.addLayout(H_layout_TMA)
+        layout_TMA.addLayout(V_layout_TMA)
         self.setTabText(0, "TMA")
         self.tabA.setLayout(layout_TMA)
 
@@ -1324,6 +1333,8 @@ class TabUI(QTabWidget):
             tmp = []
             for col in range(1,cols-1):
                 try:
+                    if row == 0 and col == 1:
+                        if self.table.item(row, col).currentText() == 'Cталь СТ3'
                     tmp.append(self.table.item(row, col).text())
                 except:
                     tmp.append('0')
@@ -1349,9 +1360,9 @@ class TabUI(QTabWidget):
 
         if self.currentIndex() == 2:
             Tm2 = TabUI.Tm2
-
+            print(self.e3.currentText())
             # sender = self.sender()
-            e = [self.e1.text(), self.e2.text(), self.e3.text(), self.e4.text(), self.e5.text(), self.e6.text(), self.e7.text(), self.e8.text(), self.e9.text(),
+            e = [self.e1.text(), self.e2.text(), self.e3.currentText(), self.e4.text(), self.e5.text(), self.e6.text(), self.e7.text(), self.e8.text(), self.e9.text(),
                  self.e10.text(), self.e11.text(), self.e12.text(), self.e13.text(), self.e14.text(), self.e15.text(), self.e16.text(), self.e17.text(), self.e18.text(),
                  self.e19.text(), self.e20.text(), self.e21.text(), self.e22.text(), self.e23.text(), self.e24.text(), self.e25.text(), self.e26.text(), self.e27.text(),
                  self.e28.text(), self.e29.text(), self.e30.text()]
@@ -1538,7 +1549,7 @@ class TabUI(QTabWidget):
         if self.currentIndex() == 2:
             self.e1.setText(str(TabUI.Tm2[0][i]))
             self.e2.setText(str(TabUI.Tm2[1][i]))
-            self.e3.setText(str(TabUI.Tm2[2][i]))
+            # self.e3.setText(str(TabUI.Tm2[2][i]))
             self.e4.setText(str(TabUI.Tm2[3][i]))
             self.e5.setText(str(TabUI.Tm2[4][i]))
             self.e6.setText(str(TabUI.Tm2[5][i]))
