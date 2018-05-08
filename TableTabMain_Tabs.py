@@ -285,7 +285,11 @@ class TabUI(QTabWidget):
 
     def tab2f(self):
         self.file_TM2 = json.load(open('Dataset/TM2.json'))
+<<<<<<< HEAD
         shapka = QLabel('Поверхности:')
+=======
+        shapka = QLabel('ПОВЕРХНОСТИ')
+>>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad
 
         scroll_area_array = QScrollArea()
         scroll_area_tab_improvisation = QScrollArea()
@@ -376,7 +380,10 @@ class TabUI(QTabWidget):
 
         self.e17 = QLineEdit()
         scroll_layout1.addRow(QLabel('17 ' + self.file_TM2[16][0]), self.e17)
+<<<<<<< HEAD
         self.e17.setDisabled(True)
+=======
+>>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad
 
         self.e18 = QLineEdit()
         self.s18 = QLabel('18 ' + self.file_TM2[17][0])

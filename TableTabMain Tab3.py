@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QTabWidget, QApplication, QMainWindow, QGridLayout, QWidget, QVBoxLayout, QLabel, QInputDialog, QMessageBox,\
     QTableWidget, QTableWidgetItem, QPushButton, QFormLayout, QLineEdit, QHBoxLayout, QAction, QFileDialog, \
-    QLayout, QScroller, QScrollArea
-from PyQt5.QtCore import QSize, Qt, QRect
-from PyQt5.QtGui import QPixmap
+    QLayout, QScroller, QScrollArea, QComboBox, QCheckBox
+from PyQt5.QtCore import QSize, Qt, QRect, QCoreApplication
+from PyQt5.QtGui import QPixmap,QIcon
 import json
-import Initialisation, ChoosePic
+import Initialisation, ChoosePic, Dictionary
 
 
 
@@ -88,8 +88,15 @@ class Tab_Widget(QMainWindow):
                 Array = Initialisation.ExcelSaveLoad.read_xls_from_file(fname[0])
                 Tm1 = Array['TM1']
                 TabUI.Tm2 = Array['TM2']
+                TabUI.Tm3 = Array['TM3']
+                TabUI.Tm4 = Array['TM4']
+                TabUI.TMD = Array['TMD']
+                TabUI.TMI = Array['TMI']
 
-
+                TabUI.e1_TMA.setText(str(TabUI.TMA[0][0]))
+                TabUI.e2_TMA.setText(str(TabUI.TMA[1][0]))
+                TabUI.e3_TMA.setText(str(TabUI.TMA[2][0]))
+                TabUI.e4_TMA.setText(str(TabUI.TMA[3][0]))
                 for i in range(len(Tm1)):
                     TabUI.table.setItem(i, 1, QTableWidgetItem(str(round(int(Tm1[i][0]), 0))))
 
@@ -134,13 +141,13 @@ class TabUI(QTabWidget):
         self.tabA = QWidget()
 
 
+        self.addTab(self.tabA, "TMA")
         self.addTab(self.tab1, "TM1")
         self.addTab(self.tab2, "TM2")
         self.addTab(self.tab3, "TM3")
         self.addTab(self.tab4, "TM4")
         self.addTab(self.tabD, "TMD")
         self.addTab(self.tabI, "TMI")
-        self.addTab(self.tabA, "TMA")
 
         self.tab1f()
         self.tab2f()
@@ -178,15 +185,24 @@ class TabUI(QTabWidget):
 
         # заполняем первый столбец
 
-        self.file = json.load(open('Dataset/TM1.json'))
-        for i in range(len(self.file)):
-            self.table.setItem(i, 0, QTableWidgetItem(str(self.file[i][0])))
+        file = json.load(open('Dataset/TM1.json'))
+        for i in range(len(file)):
+            self.table.setItem(i, 0, QTableWidgetItem(str(file[i][0])))
+
+
+        grid_layout.addWidget(self.table, 0, 0,3,1,Qt.AlignLeft)  # Добавляем таблицу в сетку
+
+        self.code_material = QComboBox(self)
+        self.code_material.setMinimumWidth(170)
+        for value in Dictionary.material.values():
+            self.code_material.addItem(value)
+        self.table.setCellWidget(0, 1, self.code_material)
 
         # делаем ресайз колонок по содержимому
         self.table.resizeColumnsToContents()
 
-        grid_layout.addWidget(self.table, 0, 0,3,1,Qt.AlignLeft)  # Добавляем таблицу в сетку
-
+        hole = QCheckBox()
+        self.table.setCellWidget(18, 1, hole)
 
         self.saveb = QPushButton('Next', self)
         self.saveb.setMaximumWidth(100)
@@ -203,7 +219,7 @@ class TabUI(QTabWidget):
 
         self.saveb.clicked.connect(self.getData)
 
-        self.setTabText(0, "TM1")
+        self.setTabText(1, "TM1")
         self.tab1.setLayout(grid_layout)
 
 
@@ -216,27 +232,22 @@ class TabUI(QTabWidget):
         set_widget1= QWidget()
         set_widget2 = QWidget()
 
-<<<<<<< HEAD:TableTabMain_v_2.py
-        scroll_area_tab_improvisation.setMaximumHeight(63)
-        scroll_area_array.setMaximumWidth(660)
-=======
         scroll_area_tab_improvisation.setMaximumHeight(90)
         scroll_area_array.setMaximumWidth(800)
         # scroll_layout1 = QGridLayout(set_widget1)
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
         scroll_layout1 = QFormLayout(set_widget1)
         H_layout = QHBoxLayout(set_widget1)
+        # scroll_layout1.labelAlignment = 0x0040
         scroll_layout2 = QFormLayout(set_widget2)
 
         window_tab2 = QWidget()
+        window_tab22 = QWidget()
+        ALlInV = QVBoxLayout(window_tab2)
         layout = QHBoxLayout(window_tab2)
         layout2 = QHBoxLayout(set_widget2)
-<<<<<<< HEAD:TableTabMain_v_2.py
-=======
         layout4 = QHBoxLayout(set_widget2)
         layout3 = QHBoxLayout()
         Vlayout = QVBoxLayout(window_tab2)
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
         V2layout = QVBoxLayout(window_tab2)
 
         V2layout.addWidget(shapka)
@@ -249,7 +260,8 @@ class TabUI(QTabWidget):
         self.e2 = QLineEdit()
         scroll_layout1.addRow(QLabel('2 Посадка '), self.e2)
 
-        self.e3 = QLineEdit()
+        self.e3 = QComboBox(self)
+        self.e3.addItems(['01', '0', "1", "2", "3", "4", '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'])
         scroll_layout1.addRow(QLabel('3 Номер квалитета '), self.e3)
 
         self.e4 = QLineEdit()
@@ -336,7 +348,7 @@ class TabUI(QTabWidget):
         self.nextTm3 = QPushButton('Next',self)
         self.nextTm3.setMaximumWidth(100)
         self.nextTm3.move(980, 900)
-        self.nextTm3.clicked.connect(self.next_tab)
+        self.nextTm3.clicked.connect(self.TM2_func)
 
         layout.addLayout(V2layout)
         # layout.addLayout(layout2)
@@ -439,22 +451,21 @@ class TabUI(QTabWidget):
 
         V2layout.addLayout(H_layout)
 
-        self.setTabText(1,"TM2")
+        self.setTabText(2,"TM2")
         self.tab2.setLayout(layout)
 
-    def next_tab(self):
+    def TM2_func(self):
+        # self.setCurrentWidget(self.tab3)
         self.setCurrentIndex(self.currentIndex()+1)
         Initialisation.ExcelSaveLoad.my_func('TM2', TabUI.Tm2, Tab_Widget.XLS_FILE_PATH)
 
+
+
     def tab3f(self):
-<<<<<<< HEAD:TableTabMain_v_2.py
-        #Подгружаем названия строк
-=======
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
         self.file = json.load(open('Dataset/TM3.json'))
         # for i in range(len(self.file)):
         #     self.table.setItem(i, 0, QTableWidgetItem(str(self.file[i][0])))
-        shapka_TM3 = QLabel('ПОВЕРХНОСТИ')
+        shapka_TM3 = QLabel('ЭЛЕМЕНТЫ:')
 
         scroll_area_array_TM3 = QScrollArea()
         scroll_area_tab_improvisation_TM3 = QScrollArea()
@@ -462,11 +473,7 @@ class TabUI(QTabWidget):
         set_widget1_TM3 = QWidget()
         set_widget2_TM3 = QWidget()
 
-<<<<<<< HEAD:TableTabMain_v_2.py
-        scroll_area_tab_improvisation_TM3.setMaximumHeight(63)
-=======
         scroll_area_tab_improvisation_TM3.setMaximumHeight(100)
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
         scroll_area_array_TM3.setMaximumWidth(660)
         scroll_layout1_TM3 = QFormLayout(set_widget1_TM3)
         H_layout_TM3 = QHBoxLayout(set_widget1_TM3)
@@ -475,17 +482,6 @@ class TabUI(QTabWidget):
         window_tab2_TM3 = QWidget()
         layout_TM3 = QHBoxLayout(window_tab2_TM3)
         layout2_TM3 = QHBoxLayout(set_widget2_TM3)
-<<<<<<< HEAD:TableTabMain_v_2.py
-        V2layout_TM3 = QVBoxLayout(window_tab2_TM3)
-        V2layout_TM3.addWidget(shapka_TM3)
-        
-        #Создание кнопок выбора элемента
-        self.l = QLabel()
-
-        self.B1_TM3 = QPushButton('1-й элемент', self)
-        self.B1_TM3.clicked.connect(self.Pic)
-        # self.B1_TM3.clicked.connect(self.dataTm2)
-=======
         layout4_TM3 = QHBoxLayout(set_widget2_TM3)
         V2layout_TM3 = QVBoxLayout(window_tab2_TM3)
         V2layout_TM3.addWidget(shapka_TM3)
@@ -494,59 +490,71 @@ class TabUI(QTabWidget):
         self.l_TM3 = QLabel()
 
         self.B1_TM3 = QPushButton('1-й элемент', self)
+        self.B1_TM3.setCheckable(True)
         self.B1_TM3.clicked.connect(self.Pic)
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
+        # self.B1_TM3.clicked.connect(self.dataTm2)
 
         self.B2_TM3 = QPushButton('2-й элемент')
+        self.B2_TM3.setCheckable(True)
         self.B2_TM3.clicked.connect(self.Pic)
 
         self.B3_TM3 = QPushButton('3-й элемент')
+        self.B3_TM3.setCheckable(True)
         self.B3_TM3.clicked.connect(self.Pic)
 
         self.B4_TM3 = QPushButton('4-й элемент')
+        self.B4_TM3.setCheckable(True)
         self.B4_TM3.clicked.connect(self.Pic)
 
         self.B5_TM3 = QPushButton('5-й элемент')
+        self.B5_TM3.setCheckable(True)
         self.B5_TM3.clicked.connect(self.Pic)
 
         self.B6_TM3 = QPushButton('6-й элемент')
+        self.B6_TM3.setCheckable(True)
         self.B6_TM3.clicked.connect(self.Pic)
 
         self.B7_TM3 = QPushButton('7-й элемент')
+        self.B7_TM3.setCheckable(True)
         self.B7_TM3.clicked.connect(self.Pic)
 
         self.B8_TM3 = QPushButton('8-й элемент')
+        self.B8_TM3.setCheckable(True)
         self.B8_TM3.clicked.connect(self.Pic)
 
         self.B9_TM3 = QPushButton('9-й элемент')
+        self.B9_TM3.setCheckable(True)
         self.B9_TM3.clicked.connect(self.Pic)
 
         self.B10_TM3 = QPushButton('10-й элемент')
+        self.B10_TM3.setCheckable(True)
         self.B10_TM3.clicked.connect(self.Pic)
 
         self.B11_TM3 = QPushButton('11-й элемент')
+        self.B11_TM3.setCheckable(True)
         self.B11_TM3.clicked.connect(self.Pic)
 
         self.B12_TM3 = QPushButton('12-й элемент')
+        self.B12_TM3.setCheckable(True)
         self.B12_TM3.clicked.connect(self.Pic)
 
         self.B13_TM3 = QPushButton('13-й элемент')
+        self.B13_TM3.setCheckable(True)
         self.B13_TM3.clicked.connect(self.Pic)
 
         self.B14_TM3 = QPushButton('14-й элемент')
+        self.B14_TM3.setCheckable(True)
         self.B14_TM3.clicked.connect(self.Pic)
 
         self.B15_TM3 = QPushButton('15-й элемент')
+        self.B15_TM3.setCheckable(True)
         self.B15_TM3.clicked.connect(self.Pic)
 
-<<<<<<< HEAD:TableTabMain_v_2.py
-=======
         self.save_param_TM3 = QPushButton('Сохранить\nпараметры')
         self.save_param_TM3.setMaximumWidth(100)
         self.inf_TM3 = QLabel('Information:\nButtons will be accessible after saving parameters')
         self.save_param_TM3.clicked.connect(self.dataTm2)
 
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
         layout2_TM3.addWidget(self.B1_TM3)
         layout2_TM3.addWidget(self.B2_TM3)
         layout2_TM3.addWidget(self.B3_TM3)
@@ -562,13 +570,6 @@ class TabUI(QTabWidget):
         layout2_TM3.addWidget(self.B13_TM3)
         layout2_TM3.addWidget(self.B14_TM3)
         layout2_TM3.addWidget(self.B15_TM3)
-<<<<<<< HEAD:TableTabMain_v_2.py
-        scroll_layout2_TM3.insertRow(1, layout2_TM3)
-        scroll_area_tab_improvisation_TM3.setWidget(set_widget2_TM3)
-        V2layout_TM3.addWidget(scroll_area_tab_improvisation_TM3)
-        #Кнопки выбора элемента добавлены на слой
-        
-=======
 
         layout4_TM3.addWidget(self.save_param_TM3)
         layout4_TM3.addWidget(self.inf_TM3)
@@ -579,7 +580,6 @@ class TabUI(QTabWidget):
         V2layout_TM3.addWidget(scroll_area_tab_improvisation_TM3)
         # Кнопки выбора элемента добавлены на слой
 
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
         self.e1_TM3 = QLineEdit()
         self.e2_TM3 = QLineEdit()
         self.e3_TM3 = QLineEdit()
@@ -621,11 +621,7 @@ class TabUI(QTabWidget):
         scroll_layout1_TM3.addRow(QLabel(self.file[7][0]), self.e8_TM3)
         scroll_layout1_TM3.addRow(QLabel(self.file[8][0]), self.e9_TM3)
         scroll_layout1_TM3.addRow(QLabel(self.file[9][0]), self.e10_TM3)
-<<<<<<< HEAD:TableTabMain_v_2.py
-        scroll_layout1_TM3.addRow(QLabel(self.file[10][0]), self.e111_TM3)
-=======
         scroll_layout1_TM3.addRow(QLabel(self.file[10][0]), self.e11_TM3)
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
         scroll_layout1_TM3.addRow(QLabel(self.file[11][0]), self.e12_TM3)
         scroll_layout1_TM3.addRow(QLabel(self.file[12][0]), self.e13_TM3)
         scroll_layout1_TM3.addRow(QLabel(self.file[13][0]), self.e14_TM3)
@@ -645,20 +641,10 @@ class TabUI(QTabWidget):
         scroll_layout1_TM3.addRow(QLabel(self.file[27][0]), self.e28_TM3)
         scroll_layout1_TM3.addRow(QLabel(self.file[28][0]), self.e29_TM3)
         scroll_layout1_TM3.addRow(QLabel(self.file[29][0]), self.e30_TM3)
-<<<<<<< HEAD:TableTabMain_v_2.py
-        scroll_layout1_TM3.addRow(QLabel(self.file[30][0]), self.e31_TM3)
-
-
-=======
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
 
         layout_TM3.addLayout(V2layout_TM3)
         scroll_area_array_TM3.setWidget(set_widget1_TM3)
         H_layout_TM3.addWidget(scroll_area_array_TM3)
-<<<<<<< HEAD:TableTabMain_v_2.py
-        H_layout_TM3.addWidget(self.l)
-        
-=======
 
         self.nextTm3 = QPushButton('Next', self)
         self.nextTm3.setMaximumWidth(100)
@@ -667,15 +653,11 @@ class TabUI(QTabWidget):
         H_layout_TM3.addWidget(self.nextTm3, Qt.AlignTop | Qt.AlignRight)
         H_layout_TM3.addWidget(self.l_TM3)
 
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
         V2layout_TM3.addLayout(H_layout_TM3)
 
-        self.setTabText(2, "TM3")
+        self.setTabText(3, "TM3")
         self.tab3.setLayout(layout_TM3)
         # self.tab2.setLayout(sobaka)
-<<<<<<< HEAD:TableTabMain_v_2.py
-=======
-
     def TM3_func(self):
         print('1')
         # self.setCurrentWidget(self.tab4)
@@ -855,14 +837,18 @@ class TabUI(QTabWidget):
         self.nextTm4.setMaximumWidth(100)
         self.nextTm4.move(980, 900)
         self.nextTm4.clicked.connect(self.next_tab)
+
         H_layout_TM4.addWidget(self.nextTm4, Qt.AlignTop | Qt.AlignRight)
         H_layout_TM4.addWidget(self.l_TM4)
 
         V2layout_TM4.addLayout(H_layout_TM4)
 
-        self.setTabText(3, "TM4")
+        self.setTabText(4, "TM4")
         self.tab4.setLayout(layout_TM4)
         # self.tab2.setLayout(sobaka)
+
+    def next_tab(self):
+        self.setCurrentIndex(self.currentIndex()+1)
 
     def tabDf(self):
         self.file = json.load(open('Dataset/TMD.json'))
@@ -1013,7 +999,7 @@ class TabUI(QTabWidget):
 
         V2layout_TMD.addLayout(H_layout_TMD)
 
-        self.setTabText(4, "TMD")
+        self.setTabText(5, "TMD")
         self.tabD.setLayout(layout_TMD)
         # self.tab2.setLayout(sobaka)
 
@@ -1196,7 +1182,7 @@ class TabUI(QTabWidget):
 
         V2layout_TMI.addLayout(H_layout_TMI)
 
-        self.setTabText(5, "TMI")
+        self.setTabText(6, "TMI")
         self.tabI.setLayout(layout_TMI)
         # self.tab2.setLayout(sobaka)
 
@@ -1204,16 +1190,19 @@ class TabUI(QTabWidget):
         self.file = json.load(open('Dataset/TMA.json'))
 
         set_widget1_TMA = QWidget()
+        scroll_layout1_TMA = QFormLayout(set_widget1_TMA)
 
         H_layout_TMA = QHBoxLayout(set_widget1_TMA)
         V_layout_TMA = QVBoxLayout(set_widget1_TMA)
+        # H2_layout_TMA = QHBoxLayout(set_widget1_TMA)
 
-        window_tab2_TMA = QWidget()
-        layout_TMA = QHBoxLayout(window_tab2_TMA)
+        # window_tab2_TMA = QWidget()
 
-        self.save_param_TMA = QPushButton('Сохранить\nпараметры')
+        layout_TMA = QHBoxLayout()
+
+        self.save_param_TMA = QPushButton('Exit')
         self.save_param_TMA.setMaximumWidth(100)
-        self.save_param_TMA.clicked.connect(self.dataTm2)
+        self.save_param_TMA.clicked.connect(QCoreApplication.instance().quit)
 
         self.e1_TMA = QLineEdit()
         self.e2_TMA = QLineEdit()
@@ -1225,28 +1214,24 @@ class TabUI(QTabWidget):
         scroll_layout1_TMA.addRow(QLabel(self.file[2][0]), self.e3_TMA)
         scroll_layout1_TMA.addRow(QLabel(self.file[3][0]), self.e4_TMA)
 
-        scroll_area_array_TMA.setWidget(set_widget1_TMA)
-        H_layout_TMA.addWidget(scroll_area_array_TMA, Qt.AlignTop | Qt.AlignLeft)
+        V_layout_TMA.addWidget(set_widget1_TMA)
 
-        self.nextTMA = QPushButton('Exit', self)
+        self.nextTMA = QPushButton('Next', self)
         self.nextTMA.setMaximumWidth(100)
         self.nextTMA.move(980, 900)
         self.nextTMA.clicked.connect(self.next_tab)
 
+        H_layout_TMA.addWidget(self.nextTMA, Qt.AlignTop | Qt.AlignRight)
+        H_layout_TMA.addWidget(self.save_param_TMA, Qt.AlignTop | Qt.AlignRight)
+        H_layout_TMA.addStretch(1)
+        V_layout_TMA.addLayout(H_layout_TMA)
 
-
-        V_layout_TMA.addWidget(self.nextTMA, Qt.AlignTop | Qt.AlignRight)
-        V_layout_TMA.addWidget(self.save_param_TMA, Qt.AlignTop | Qt.AlignRight)
-        H_layout_TMA.addLayout(V_layout_TMA)
-
-        layout_TMA.addLayout(H_layout_TMA)
-        self.setTabText(6, "TMA")
+        layout_TMA.addLayout(V_layout_TMA)
+        self.setTabText(0, "TMA")
         self.tabA.setLayout(layout_TMA)
 
->>>>>>> 28bcbd5c120d6cb5fc0498d4a83cdea3f8be63ad:TableTabMain (3).py
-
     def enabl(self):
-        if self.currentIndex() == 1:
+        if self.currentIndex() == 2:
             self.B15.setEnabled(True)
             self.B14.setEnabled(True)
             self.B13.setEnabled(True)
@@ -1288,8 +1273,7 @@ class TabUI(QTabWidget):
                                                         self.B5.setEnabled(False)
                                                         if hmp < 4:
                                                             self.B4.setEnabled(False)
-
-        elif self.currentIndex() == 2:
+        elif self.currentIndex() == 3:
             self.B15_TM3.setEnabled(True)
             self.B14_TM3.setEnabled(True)
             self.B13_TM3.setEnabled(True)
@@ -1338,6 +1322,7 @@ class TabUI(QTabWidget):
 
     # выводим данные из таблицы
     def getData(self):
+
         if Tab_Widget.XLS_FILE_PATH == 'default.xls':
             text, ok = QInputDialog.getText(self, 'Save file',
                                             'Enter file name:')
@@ -1345,6 +1330,7 @@ class TabUI(QTabWidget):
             Initialisation.defineArrays(Tab_Widget.XLS_FILE_PATH)
             if not ok:
                 Tab_Widget.XLS_FILE_PATH = 'default.xls'
+
         self.setCurrentWidget(self.tab2)
         rows = self.table.rowCount()
         cols = self.table.columnCount()
@@ -1353,11 +1339,17 @@ class TabUI(QTabWidget):
             tmp = []
             for col in range(1,cols-1):
                 try:
-                    tmp.append(self.table.item(row, col).text())
+                    if row == 0 and col == 1:
+                        print ('в условии')
+                        # print (self.code_material)
+                        # print(Dictionary.material)
+                        tmp.append(Dictionary.get_key(Dictionary.material, self.code_material.currentText()))
+                    else:
+                        tmp.append(self.table.item(row, col).text())
                 except:
+                    print('не смог')
                     tmp.append('0')
             data.append(tmp)
-            print(row)
         Initialisation.ExcelSaveLoad.my_func('TM1', data, Tab_Widget.XLS_FILE_PATH)
         try:
             sum = int(self.table.item(12, 1).text())+int(self.table.item(13, 1).text())+int(self.table.item(14, 1).text())+int(self.table.item(15, 1).text())+3
@@ -1376,26 +1368,24 @@ class TabUI(QTabWidget):
     def dataTm2(self):
 
         self.enabl()
-        if self.currentIndex() == 1:
+
+        if self.currentIndex() == 2:
             Tm2 = TabUI.Tm2
+            print(self.e3.currentText())
             # sender = self.sender()
-            e = [self.e1.text(), self.e2.text(), self.e3.text(), self.e4.text(), self.e5.text(), self.e6.text(), self.e7.text(), self.e8.text(), self.e9.text(),
+            e = [self.e1.text(), self.e2.text(), self.e3.currentText(), self.e4.text(), self.e5.text(), self.e6.text(), self.e7.text(), self.e8.text(), self.e9.text(),
                  self.e10.text(), self.e11.text(), self.e12.text(), self.e13.text(), self.e14.text(), self.e15.text(), self.e16.text(), self.e17.text(), self.e18.text(),
                  self.e19.text(), self.e20.text(), self.e21.text(), self.e22.text(), self.e23.text(), self.e24.text(), self.e25.text(), self.e26.text(), self.e27.text(),
                  self.e28.text(), self.e29.text(), self.e30.text()]
-        elif self.currentIndex() == 2:
+        elif self.currentIndex() == 3:
             Tm2 = TabUI.Tm3
-            e = [self.e1_TM3.text(), self.e2_TM3.text(), self.e3_TM3.text(), self.e4_TM3.text(), self.e5_TM3.text(),
-                 self.e6_TM3.text(), self.e7_TM3.text(), self.e8_TM3.text(), self.e9_TM3.text(),
-                 self.e10_TM3.text(), self.e11_TM3.text(), self.e12_TM3.text(), self.e13_TM3.text(),
-                 self.e14_TM3.text(), self.e15_TM3.text(), self.e16_TM3.text(), self.e17_TM3.text(),
-                 self.e18_TM3.text(),
-                 self.e19_TM3.text(), self.e20_TM3.text(), self.e21_TM3.text(), self.e22_TM3.text(),
-                 self.e23_TM3.text(), self.e24_TM3.text(), self.e25_TM3.text(), self.e26_TM3.text(),
-                 self.e27_TM3.text(),
+            e = [self.e1_TM3.text(), self.e2_TM3.text(), self.e3_TM3.text(), self.e4_TM3.text(), self.e5_TM3.text(), self.e6_TM3.text(), self.e7_TM3.text(), self.e8_TM3.text(), self.e9_TM3.text(),
+                 self.e10_TM3.text(), self.e11_TM3.text(), self.e12_TM3.text(), self.e13_TM3.text(), self.e14_TM3.text(), self.e15_TM3.text(), self.e16_TM3.text(), self.e17_TM3.text(), self.e18_TM3.text(),
+                 self.e19_TM3.text(), self.e20_TM3.text(), self.e21_TM3.text(), self.e22_TM3.text(), self.e23_TM3.text(), self.e24_TM3.text(), self.e25_TM3.text(), self.e26_TM3.text(), self.e27_TM3.text(),
                  self.e28_TM3.text(), self.e29_TM3.text(), self.e30_TM3.text()]
         print(e)
-
+        # t = sender.text()
+        print('b')
         if self.B1.isChecked() or self.B1_TM3.isChecked():
             print('z1')
 
@@ -1404,24 +1394,22 @@ class TabUI(QTabWidget):
                     Tm2[j][0] = '0'
                 else:
                     Tm2[j][0] = e[j]
-
-            if self.currentIndex() == 1:
+            # self.B1.setChecked(False)
+            if self.currentIndex() == 2:
                 self.B1.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B1_TM3.setChecked(False)
-
-        elif self.B2.isChecked() or self.B1_TM3.isChecked():
+        elif self.B2.isChecked()  or self.B2_TM3.isChecked():
             print('z2')
             for j in range(30):
                 if e[j] == '':
                     Tm2[j][1] = '0'
                 else:
                     Tm2[j][1] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B2.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B2_TM3.setChecked(False)
-
         elif self.B3.isChecked() or self.B3_TM3.isChecked():
             print('z3')
             for j in range(30):
@@ -1429,9 +1417,9 @@ class TabUI(QTabWidget):
                     Tm2[j][2] = '0'
                 else:
                     Tm2[j][2] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B3.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B3_TM3.setChecked(False)
         elif self.B4.isChecked() or self.B4_TM3.isChecked():
             print('z4')
@@ -1440,9 +1428,9 @@ class TabUI(QTabWidget):
                     Tm2[j][3] = '0'
                 else:
                     Tm2[j][3] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B4.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B4_TM3.setChecked(False)
         elif self.B5.isChecked() or self.B5_TM3.isChecked():
             print('z5')
@@ -1451,9 +1439,9 @@ class TabUI(QTabWidget):
                     Tm2[j][4] = '0'
                 else:
                     Tm2[j][4] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B5.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B5_TM3.setChecked(False)
         elif self.B6.isChecked() or self.B6_TM3.isChecked():
             print('z6')
@@ -1462,9 +1450,9 @@ class TabUI(QTabWidget):
                     Tm2[j][5] = '0'
                 else:
                     Tm2[j][5] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B6.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B6_TM3.setChecked(False)
         elif self.B7.isChecked() or self.B7_TM3.isChecked():
             print('z7')
@@ -1473,9 +1461,9 @@ class TabUI(QTabWidget):
                     Tm2[j][6] = '0'
                 else:
                     Tm2[j][6] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B7.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B7_TM3.setChecked(False)
         elif self.B8.isChecked() or self.B8_TM3.isChecked():
             print('z8')
@@ -1484,9 +1472,9 @@ class TabUI(QTabWidget):
                     Tm2[j][7] = '0'
                 else:
                     Tm2[j][7] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B8.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B8_TM3.setChecked(False)
         elif self.B9.isChecked() or self.B9_TM3.isChecked():
             print('z9')
@@ -1495,9 +1483,9 @@ class TabUI(QTabWidget):
                     Tm2[j][8] = '0'
                 else:
                     Tm2[j][8] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B9.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B9_TM3.setChecked(False)
         elif self.B10.isChecked() or self.B10_TM3.isChecked():
             print('z10')
@@ -1506,9 +1494,9 @@ class TabUI(QTabWidget):
                     Tm2[j][9] = '0'
                 else:
                     Tm2[j][9] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B10.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B10_TM3.setChecked(False)
         elif self.B11.isChecked() or self.B11_TM3.isChecked():
             print('z11')
@@ -1517,9 +1505,9 @@ class TabUI(QTabWidget):
                     Tm2[j][10] = '0'
                 else:
                     Tm2[j][10] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B11.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B11_TM3.setChecked(False)
         elif self.B12.isChecked() or self.B12_TM3.isChecked():
             print('z12')
@@ -1528,9 +1516,9 @@ class TabUI(QTabWidget):
                     Tm2[j][11] = '0'
                 else:
                     Tm2[j][11] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B12.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B12_TM3.setChecked(False)
         elif self.B13.isChecked() or self.B13_TM3.isChecked():
             print('z13')
@@ -1539,9 +1527,9 @@ class TabUI(QTabWidget):
                     Tm2[j][12] = '0'
                 else:
                     Tm2[j][12] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B13.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B13_TM3.setChecked(False)
         elif self.B14.isChecked() or self.B14_TM3.isChecked():
             print('z14')
@@ -1550,9 +1538,9 @@ class TabUI(QTabWidget):
                     Tm2[j][13] = '0'
                 else:
                     Tm2[j][13] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B14.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B14_TM3.setChecked(False)
         elif self.B15.isChecked() or self.B15_TM3.isChecked():
             print('z15')
@@ -1561,17 +1549,18 @@ class TabUI(QTabWidget):
                     Tm2[j][14] = '0'
                 else:
                     Tm2[j][14] = e[j]
-            if self.currentIndex() == 1:
+            if self.currentIndex() == 2:
                 self.B15.setChecked(False)
-            elif self.currentIndex() == 2:
+            elif self.currentIndex() == 3:
                 self.B15_TM3.setChecked(False)
         print(Tm2)
 
+
     def enterTm2(self,i):
-        if self.currentIndex() == 1:
+        if self.currentIndex() == 2:
             self.e1.setText(str(TabUI.Tm2[0][i]))
             self.e2.setText(str(TabUI.Tm2[1][i]))
-            self.e3.setText(str(TabUI.Tm2[2][i]))
+            # self.e3.setText(str(TabUI.Tm2[2][i]))
             self.e4.setText(str(TabUI.Tm2[3][i]))
             self.e5.setText(str(TabUI.Tm2[4][i]))
             self.e6.setText(str(TabUI.Tm2[5][i]))
@@ -1599,7 +1588,7 @@ class TabUI(QTabWidget):
             self.e28.setText(str(TabUI.Tm2[27][i]))
             self.e29.setText(str(TabUI.Tm2[28][i]))
             self.e30.setText(str(TabUI.Tm2[29][i]))
-        elif self.currentIndex() == 2:
+        elif self.currentIndex() == 3:
             self.e1_TM3.setText(str(TabUI.Tm3[0][i]))
             self.e2_TM3.setText(str(TabUI.Tm3[1][i]))
             self.e3_TM3.setText(str(TabUI.Tm3[2][i]))
@@ -1631,8 +1620,9 @@ class TabUI(QTabWidget):
             self.e29_TM3.setText(str(TabUI.Tm3[28][i]))
             self.e30_TM3.setText(str(TabUI.Tm3[29][i]))
 
+
     def Pic(self):
-        if self.currentIndex() == 1:
+        if self.currentIndex() == 2:
             self.B15.setEnabled(False)
             self.B14.setEnabled(False)
             self.B13.setEnabled(False)
@@ -1649,7 +1639,7 @@ class TabUI(QTabWidget):
             self.B2.setEnabled(False)
             self.B1.setEnabled(False)
 
-        elif self.currentIndex() == 2:
+        elif self.currentIndex() == 3:
             self.B15_TM3.setEnabled(False)
             self.B14_TM3.setEnabled(False)
             self.B13_TM3.setEnabled(False)
@@ -1666,9 +1656,10 @@ class TabUI(QTabWidget):
             self.B2_TM3.setEnabled(False)
             self.B1_TM3.setEnabled(False)
 
+
         sender = self.sender()
         t = sender.text()
-        if self.currentIndex() == 1:
+        if self.currentIndex() == 2:
             if t == '1 поверхность':
                 self.enterTm2(0)
                 self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[0])))
@@ -1714,37 +1705,39 @@ class TabUI(QTabWidget):
             elif t == '15 поверхность':
                 self.enterTm2(14)
                 self.l.setPixmap(QPixmap('Pics/' + str(TabUI.image[14])))
-        elif self.currentIndex() == 2:
-            if t == '1-й элемент':
+        elif self.currentIndex() == 3:
+            if  t == '1-й элемент':
                 self.enterTm2(0)
-            elif t == '2-й элемент':
+            elif  t == '2-й элемент':
                 self.enterTm2(1)
-            elif t == '3-й элемент':
+            elif  t == '3-й элемент':
                 self.enterTm2(2)
-            elif t == '4-й элемент':
+            elif  t == '4-й элемент':
                 self.enterTm2(3)
-            elif t == '5-й элемент':
+            elif  t == '5-й элемент':
                 self.enterTm2(4)
-            elif t == '6-й элемент':
+            elif  t == '6-й элемент':
                 self.enterTm2(5)
-            elif t == '7-й элемент':
+            elif  t == '7-й элемент':
                 self.enterTm2(6)
-            elif t == '8-й элемент':
+            elif  t == '8-й элемент':
                 self.enterTm2(7)
-            elif t == '9-й элемент':
+            elif  t == '9-й элемент':
                 self.enterTm2(8)
-            elif t == '10-й элемент':
+            elif  t == '10-й элемент':
                 self.enterTm2(9)
-            elif t == '11-й элемент':
+            elif  t == '11-й элемент':
                 self.enterTm2(10)
-            elif t == '12-й элемент':
+            elif  t == '12-й элемент':
                 self.enterTm2(11)
-            elif t == '13-й элемент':
+            elif  t == '13-й элемент':
                 self.enterTm2(12)
-            elif t == '14-й элемент':
+            elif  t == '14-й элемент':
                 self.enterTm2(13)
-            elif t == '15-й элемент':
+            elif  t == '15-й элемент':
                 self.enterTm2(14)
+
+
 
 if __name__ == "__main__":
     import sys
