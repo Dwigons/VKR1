@@ -3,7 +3,7 @@ import ExcelSaveLoad
 
 
 def createMatrix(a, b): #Создание массива а - строки, б- столбцы
-    MatrixToCreate = [[0] * b for i in range(a)]
+    MatrixToCreate = [['0'] * b for i in range(a)]
     return (MatrixToCreate)
 
 def defineArrays(XLS_FILE_PATH): #Инициализация всех массивов
@@ -30,7 +30,6 @@ def defineArrays(XLS_FILE_PATH): #Инициализация всех масси
     ExcelSaveLoad.my_func('TM4', TM_4, XLS_FILE_PATH)
     ExcelSaveLoad.my_func('TMD', TMD, XLS_FILE_PATH)
     ExcelSaveLoad.my_func('TMI', TMI, XLS_FILE_PATH)
-
 
 
 if __name__ == '__main__':
