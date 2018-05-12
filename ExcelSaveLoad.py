@@ -48,7 +48,7 @@ def prettify_matrix_data(data, json_file_path):
 
 def my_func(sheet_name, sheet_data, XLS_FILE_PATH):
     if Path(XLS_FILE_PATH).is_file():
-        print('1')
+        # print('1')
         book = xlrd.open_workbook(XLS_FILE_PATH)
         print(sheet_name)
         if any(map(lambda v: v in sheet_name, book.sheet_names())):#Check exists of list in file
@@ -66,7 +66,7 @@ def my_func(sheet_name, sheet_data, XLS_FILE_PATH):
             edited_sheet.write(row_i, column_i, value)
 
 
-    print('2')
+    # print('2')
     book.save(XLS_FILE_PATH)
 
 
